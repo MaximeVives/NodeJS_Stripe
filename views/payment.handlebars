@@ -1,0 +1,18 @@
+<section class="payment">
+    <form action="/charge" method="POST">
+        <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="{{stripePublishableKey}}"
+            data-amount="2500"
+            data-name="Laravel Guide"
+            data-description="A Laravel Guide written by Maxime Vives"
+            data-image="/img/logo.png"
+            data-locale="auto">
+        </script>
+        <script>
+            // Hide default stripe button
+            document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
+        </script>
+        <button type="submit" class="btn btn-outline-dark text-white btn-lg">Purchase For $25</button>
+    </form>
+</section>
