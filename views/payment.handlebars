@@ -1,18 +1,37 @@
+<script language="JavaScript">
+    document.querySelector("body").style.overflow="initial";
+</script>
+
 <section class="payment">
-    <form action="/charge" method="POST">
-        <script
-            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-key="{{stripePublishableKey}}"
-            data-amount="2500"
-            data-name="Laravel Guide"
-            data-description="A Laravel Guide written by Maxime Vives"
-            data-image="/img/logo.png"
-            data-locale="auto">
-        </script>
-        <script>
-            // Hide default stripe button
-            document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
-        </script>
-        <button type="submit" class="btn btn-outline-dark text-white btn-lg">Purchase For $25</button>
-    </form>
+{{#each product}}
+    <div class="product-card">
+        <div class="product-img">
+            <img src="/img/product/{{this.image}}" alt="product-pic">
+        </div>
+        <div class="product-descr">
+            <h2>{{this.name}}</h2>
+            <p>{{this.description}}</p>
+            <span><a href="/confirm-shop/{{this.id}}">{{this.price}}€</a></span>
+        </div>
+    </div>
+
+{{/each}}
 </section>
+
+
+<!--<section class="buy">-->
+<!--    <form action="/charge" method="POST">-->
+<!--        <script-->
+<!--                src="https://checkout.stripe.com/checkout.js" class="stripe-button"-->
+<!--                data-key="{{stripePublishableKey}}"-->
+<!--                data-amount="2500"-->
+<!--                data-name="Laravel Guide"-->
+<!--                data-description="A Laravel Guide written by Maxime Vives"-->
+<!--                data-image="/img/logo.png"-->
+<!--                data-locale="auto">-->
+<!--        </script>-->
+
+<!--        <button type="submit" class="btn btn-outline-dark text-white btn-lg">Purchase For $25</button>-->
+<!--    </form>-->
+<!--</section>-->
+

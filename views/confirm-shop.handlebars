@@ -1,0 +1,22 @@
+<section class="valid">
+    <img src="/img/product/{{product.image}}" alt="">
+    <p>Etes vous sur de vouloir acheter : {{product.name}} ?</p>
+    <section class="buy">
+        <form action="/charge/{{product.id}}" method="POST">
+            <script
+                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="{{stripePublishableKey}}"
+                    data-amount="{{product.stripePrice}}"
+                    data-name="{{product.name}}"
+                    data-description="{{product.description}}"
+                    data-image="/img/product/{{product.image}}"
+                    data-locale="auto">
+            </script>
+            <script>
+                // Hide default stripe button
+                document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
+            </script>
+            <button type="submit" class="btn btn-outline-dark text-white btn-lg">Purchase For {{product.price}}€</button>
+        </form>
+    </section>
+</section>

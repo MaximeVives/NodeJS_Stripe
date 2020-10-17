@@ -1,6 +1,8 @@
 const routes = require('express').Router();
 const keys = require('../config/keys')
 const stripe = require('stripe')(keys.stripeSecretKey)
+const product = require('../database/data.json');
+
 
 //Index Route
 routes.get('/', (req, res) => {
@@ -12,27 +14,41 @@ routes.get('/success', (req, res) => {
 })
 
 //Shop route
-routes.get('/payment', (req, res) => {
+routes.get('/shop', (req, res) => {
     res.render('payment', {
-        stripePublishableKey: keys.stripePublishableKey
+        product: product
     });
 })
 
+routes.get('/confirm-shop/:id', (req, res) => {
+    const id = req.params.id;
+    const uniqProduct = product.find(prod => prod.id === id);
+    res.render('confirm-shop', {
+        stripePublishableKey: keys.stripePublishableKey,
+        product: uniqProduct,
+    });
+})
+
+
 //Charge (payment) Route
-routes.post('/charge', (req, res) => {
-    const amount = 2500;
+routes.post('/charge/:id', (req, res) => {
+    const id = req.params.id;
+    const uniqProduct = product.find(prod => prod.id === id);
+    const amount = uniqProduct.stripePrice;
+    const name = uniqProduct.name
 
     stripe.customers.create({
         email: req.body.stripeEmail,
         source: req.body.stripeToken
     })
-        .then(customer => stripe.charges.create({
-            amount: amount,
-            description: 'Laravel Guide Ebook',
-            currency: 'eur',
-            customer: customer.id
-        }))
-        .then(charge => res.render('success'))
+    .then(customer => stripe.charges.create({
+        amount: amount,
+        description: name,
+        currency: 'eur',
+        receipt_email: req.body.stripeEmail,
+        customer: customer.id
+    }))
+    .then(charge => res.render('success'))
 });
 
 
