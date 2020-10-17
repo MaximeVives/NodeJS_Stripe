@@ -54,10 +54,10 @@ header .menu ul li a{
     font-size: 20px;
 }
 
-header .menu ul li a {
+header .menu .link li a {
     position: relative;
 }
-header .menu ul li a::after {
+header .menu .link li a::after {
     content: '';
     transform-origin: 0 0;
     transform: scaleX(0);
@@ -71,7 +71,7 @@ header .menu ul li a::after {
     opacity: 0.8;
     transition: transform .3s;
 }
-header .menu ul li a:hover::after {
+header .menu .link li a:hover::after {
     transform: scaleX(1);
 }
 
@@ -82,12 +82,29 @@ header .menu .social{
 }
 
 header .menu .social li{
-    margin: 0 15px;
+    margin: 0 10px;
 }
 
 header .menu .social li i{
     color: white;
-    font-size: 20px;
+    font-size: 22px;
+    transition: 0.3s;
+}
+
+
+/*header .menu .social li:nth-child(1) i:hover {*/
+/*    background: linear-gradient(45deg, rgba(81, 91, 212, 1) 0%, rgba(129, 52, 175, 1) 25%, rgba(221, 42, 123, 1) 50%, rgba(254, 218, 119, 1) 75%, rgba(245, 133, 41, 1) 100%);*/
+/*    background-clip: text;*/
+/*    -webkit-background-clip: text;*/
+/*    color: transparent;*/
+
+/*}*/
+
+/*header .menu .social li:nth-child(2) i:hover{color: #2b3137;}*/
+/*header .menu .social li:nth-child(3) i:hover{color: rgb(0, 119, 181);}*/
+
+header .menu .social li i:hover{
+    color: #F5C7B2;
 }
 
 main{
@@ -108,8 +125,25 @@ main{
 .content .title span{
     margin-left: 190px;
     font-size: 120px;
-    color: #F5C7B2;
+    color: #FFF;
+    position: relative;
+    width: fit-content;
 }
+
+.content .title span::after{
+    content: '';
+    transform-origin: 0 0;
+    transform: scaleX(1);
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: -20px;
+    height: .4em;
+    background: #F5C7B2;
+    z-index: -1;
+    opacity: 0.8;
+}
+
 
 
 .bodymovinanim{
@@ -201,4 +235,21 @@ main{
 
 .buy form button:hover{
     transform: scale(1.1);
+}
+
+
+@media screen and (max-width: 1200px){
+    .content .title{
+        margin: 100px 0 0 70px;
+    }
+}
+
+@media screen and (max-width: 980px){
+    .bodymovinanim{
+        position: initial;
+    }
+    .content .title{
+        margin: 100px 0;
+        text-align: center;
+    }
 }
