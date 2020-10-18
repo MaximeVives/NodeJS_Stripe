@@ -1,55 +1,21 @@
 const routes = require('express').Router();
-const keys = require('../config/keys')
-const stripe = require('stripe')(keys.stripeSecretKey)
-const product = require('../database/data.json');
+const controller = require('../controllers/controller.js');
 
 
 //Index Route
-routes.get('/', (req, res) => {
-    res.render('index')
-})
+routes.get('/', controller.accueil);
 
-routes.get('/success', (req, res) => {
-    res.render('success');
-})
+//Command Valid
+routes.get('/success', controller.success);
 
 //Shop route
-routes.get('/shop', (req, res) => {
-    res.render('payment', {
-        product: product
-    });
-})
+routes.get('/shop', controller.shop);
 
-routes.get('/confirm-shop/:id', (req, res) => {
-    const id = req.params.id;
-    const uniqProduct = product.find(prod => prod.id === id);
-    res.render('confirm-shop', {
-        stripePublishableKey: keys.stripePublishableKey,
-        product: uniqProduct,
-    });
-})
-
+//Product Route
+routes.get('/confirm-shop/:id', controller.confirmShop)
 
 //Charge (payment) Route
-routes.post('/charge/:id', (req, res) => {
-    const id = req.params.id;
-    const uniqProduct = product.find(prod => prod.id === id);
-    const amount = uniqProduct.stripePrice;
-    const name = uniqProduct.name
+routes.post('/charge/:id', controller.payment);
 
-    stripe.customers.create({
-        email: req.body.stripeEmail,
-        source: req.body.stripeToken
-    })
-    .then(customer => stripe.charges.create({
-        amount: amount,
-        description: name,
-        currency: 'eur',
-        receipt_email: req.body.stripeEmail,
-        customer: customer.id
-    }))
-    .then(charge => res.render('success'))
-});
-
-
+//Exportation des routes pour app.js
 module.exports = routes;
